@@ -1,0 +1,42 @@
+<html> 
+  <head> 
+    <title>Title</title>
+    <style>
+      .important {
+      font-weight: bold;
+      }
+
+      .footnote {
+      font-size: 75%;
+      }
+
+      #counter {
+      color: red;
+      }
+
+      em > u {
+        color: red;
+      }
+      
+      em a {
+      color: green;
+      }
+
+    </style>
+  </head> 
+  <body>
+    <!-- Class Selectors Example -->
+    <div class="important">Some text</div>
+    <div class="footnote">Some other text</div>
+    <div class="important footnote">Small but bold!</div>
+
+    <!-- ID Selectors -->
+    <div>Search returned <span id="counter">10</span> results</div>
+
+    <!-- Relationship Selecto Selectors -->
+    <em><u>this will be red</u> <strong><u>but this will not</u></strong></em>
+    </br>
+    <em><a>this will be green</a> <strong><a>and this will also be green</a></em>
+    
+  </body> 
+</html>

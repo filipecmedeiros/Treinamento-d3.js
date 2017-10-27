@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Page Template</title>
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+    </head>
+    <body>
+      <svg width="1000" height="500"></svg>
+      <script type="text/javascript">
+
+	var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13, 11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+	
+	//
+	var mySVG = d3.select("svg");	   
+	var group = mySVG.append("g").attr("transform","translate(0,500),scale(1,-1)");
+	var barWidth = 40;
+	var slack = 2;
+	
+	//
+	group
+	.selectAll("rect")
+	.data(dataset)
+	.enter()
+	.append("rect")
+	.attr("x",function(d,i){return i*(barWidth+slack);})
+	.attr("y",0)
+	.attr("fill","blue")
+	.attr("width",function(d){return barWidth;})
+	.attr("height",function(d){return (d/30.0)*500;});
+
+	//
+	mySVG
+	.selectAll("text")
+	.data(dataset)
+	.enter()
+	.append("text")
+	.attr("x",function(d,i){return i*(barWidth+slack)+barWidth/2;})
+	.attr("y",function(d){return 15+500-(d/30.0)*500;})
+	.attr("text-anchor","middle")
+	.attr("fill","white")
+	.text(function(d){return d;});
+      </script>
+    </body>
+</html>    
