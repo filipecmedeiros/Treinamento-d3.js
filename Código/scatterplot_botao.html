@@ -1,0 +1,108 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Page Template</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <svg width="750" height="500">
+    </svg>
+    <button onClick="eventoClique()">Clique</button>
+
+    <script type="text/javascript">
+      function eventoClique(){
+        console.log("clicou");
+        var points = Math.ceil(1 + 50*Math.random());
+        console.log(points);
+
+        points = 27;
+        var newData = [];
+        
+        for(var i = 0; i<points; i++){
+          var x = Math.ceil(Math.random()*500);
+          var y = Math.ceil(Math.random()*500);
+
+          newData.push([x,y]);
+        }
+        
+        console.log(newData);
+        
+        /*
+        d3.select("svg")
+        .selectAll("circle")
+        .data(newData)
+        .exit()
+        .remove();
+        */
+
+        d3.select("svg")
+        .selectAll("circle")
+        .data(newData)
+        .enter()
+        .append("circle")
+        .attr("cx",d=>d[0])
+        .attr("cy",d=>d[1])
+        .attr("r",5);
+      
+        d3.select("svg")
+        .selectAll("text")
+        .data(newData)
+        .enter()
+        .append("text")
+        .attr("x",d=>d[0])
+        .attr("y",d=>d[1])
+        .text(d=>d)
+        .attr("fill","red");
+
+        d3.select("svg")
+        .selectAll("circle")
+        .data(newData)
+        .transition(2000)
+        .delay(function(d,i){return i*100;})
+        .attr("cx", d=>d[0])
+        .attr("cy", d=>d[1])
+        .attr("r", 5);
+
+        d3.select("svg")
+        .selectAll("text")
+        .data(newData)
+        .text(d=>d)
+        .transition(2000)
+        .delay(function(d,i){return i*100;})
+        .attr("x", d=>d[0])
+        .attr("y", d=>d[1])
+        .attr("fill", "red");
+      }
+
+      //d3.selectAll("circle").data(dataset).exit().remove();
+
+      /*
+        var dataset = [[5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
+        [410, 12], [475, 44], [25, 67], [85, 21], [220, 88]];
+
+
+        d3.select("svg")
+        .selectAll("circle")
+        .data(dataset)
+        .enter()
+        .append("circle")
+        .attr("cx",d=>d[0])
+        .attr("cy",d=>d[1])
+        .attr("r",5);      
+
+
+        d3.select("svg")
+        .selectAll("text")
+        .data(dataset)
+        .enter()
+        .append("text")
+        .attr("x",d=>d[0])
+        .attr("y",d=>d[1])
+        .text(d=>d)
+        .attr("fill","red");
+      */
+      
+    </script>
+  </body>
+
+</html>
