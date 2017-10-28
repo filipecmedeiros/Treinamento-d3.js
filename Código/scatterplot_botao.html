@@ -10,43 +10,64 @@
     <button onClick="eventoClique()">Clique</button>
 
     <script type="text/javascript">
-        function eventoClique(){
-            console.log("clicou");
-            
             var margin = {top: 30, right: 30, bottom: 30, left: 30};
             var width = 500- margin.left - margin.right;
             var height = 500 - margin.top - margin.bottom;
 
 
-            var points = Math.ceil(1 + 50*Math.random());
-            points = 27;
-            console.log(points);
-
-
-            var newData = [];
+            var dataset = [[5, 20, 9], [480, 90, 5], [250, 50,1], [100, 33,0], [330, 95,10],
+                [410, 12,3], [475, 44,7], [25, 67,9], [85, 21,2], [220, 88,2]];
             
-            for(var i = 0; i<points; i++){
-              var x = Math.ceil(Math.random()*500);
-              var y = Math.ceil(Math.random()*500);
-              var z = Math.ceil(Math.random()*10);
+                        var dataXInterval = d3.extent(dataset,d=>d[0]);
+            var xScale = d3.scaleLinear().domain(dataXInterval).range([0,width]);
 
-              newData.push([x,y,z]);
-            }
-            
-            console.log(newData);
+            var dataYinterval = d3.extent(dataset, d=>d[1]);
+            var yScale = d3.scaleLinear().domain(dataYinterval).range([height, 0]);
+
+            var dataZinterval = d3.extent(dataset, d=>d[2]);
+            var zScale = d3.scaleLinear().domain(dataZinterval).range(["black", "blue"]);
+
 
             var mySVG = d3.select("svg")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
             
-            var dataXInterval = d3.extent(newData,d=>d[0]);
-            var xScale = d3.scaleLinear().domain(dataXInterval).range([0,width]);
+            var xAxisGroup = mySVG.append("g")
+                                       .attr("class","xAxis")
+                                       .attr("transform","translate(0,"+(height-margin.top)+")");
+            var xAxis = d3.axisBottom(xScale);
+            xAxisGroup.call(xAxis);
 
-            var dataYinterval = d3.extent(newData, d=>d[1]);
-            var yScale = d3.scaleLinear().domain(dataYinterval).range([height, 0]);
 
-            var dataZinterval = d3.extent(newData, d=>d[2]);
-            var zScale = d3.scaleLinear().domain(dataZinterval).range(["black", "blue"]);
+            var yAxisGroup = mySVG.append("g")
+                                       .attr("class","yAxis")
+                                       .attr("transform","translate(15,0)");
+            var yAxis = d3.axisLeft(yScale);
+            yAxisGroup.call(yAxis);
+
+            mySVG
+            .selectAll("circle")
+            .data(dataset)
+            .enter()
+            .append("circle")
+            .attr("cx",d=>xScale(d[0]))
+            .attr("cy",d=>yScale(d[1]))
+            .attr("fill", d=>zScale(d[2]))
+            .attr("r",5);
+
+
+        function eventoClique(){
+            var points = 30;
+
+            var dataset = [];
+            for(var i = 0; i<points; i++){
+              var x = Math.ceil(Math.random()*500);
+              var y = Math.ceil(Math.random()*500);
+              var z = Math.ceil(Math.random()*10);
+
+              dataset.push([x,y,z]);
+            }
+            console.log(dataset);
 
             /*
             d3.select("svg")
@@ -55,41 +76,42 @@
             .exit()
             .remove();
             */
+            var dataXInterval = d3.extent(dataset,d=>d[0]);
+            var xScale = d3.scaleLinear().domain(dataXInterval).range([0,width]);
 
-            d3.select("g")
+            var dataYinterval = d3.extent(dataset, d=>d[1]);
+            var yScale = d3.scaleLinear().domain(dataYinterval).range([height, 0]);
+
+            var dataZinterval = d3.extent(dataset, d=>d[2]);
+            var zScale = d3.scaleLinear().domain(dataZinterval).range(["black", "blue"]);
+
+
+            mySVG
             .selectAll("circle")
-            .data(newData)
+            .data(dataset)
             .enter()
             .append("circle")
             .attr("cx",d=>xScale(d[0]))
             .attr("cy",d=>yScale(d[1]))
             .attr("fill", d=>zScale(d[2]))
-            .attr("r",5);
+            .attr("r",5)
+            .attr("Class", "text-label");
 
-          
-            d3.select("g")
-            .selectAll("text")
-            .data(newData)
-            .enter()
-            .append("text")
-            .attr("x",d=>xScale(d[0]))
-            .attr("y",d=>yScale(d[1]))
-            .text(d=>d)
-            .attr("fill","red");
 
-            d3.select("g")
+            mySVG
             .selectAll("circle")
-            .data(newData)
+            .data(dataset)
             .transition(2000)
             .delay(function(d,i){return i*100;})
             .attr("cx", d=>xScale(d[0]))
             .attr("cy", d=>yScale(d[1]))
             .attr("fill", d=>zScale(d[2]))
-            .attr("r", 5);
+            .attr("r", 5)
+            .attr("class", "text-label");
 
-            d3.select("g")
-            .selectAll("text")
-            .data(newData)
+            mySVG
+            .selectAll("text-label")
+            .data(dataset)
             .text(d=>d)
             .transition(2000)
             .delay(function(d,i){return i*100;})
