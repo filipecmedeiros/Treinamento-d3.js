@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>D3 Page Template</title>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+  </head>
+  <body>
+    <svg width="500" height="500">
+    </svg>
+
+    <script type="text/javascript">
+      var dataset = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
+                11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+    
+    d3.select("svg").selectAll("rect").data(dataset).enter().append("rect").attr("x", function(d, i){return i*20}).attr("y", 0).attr("width", "20").attr("height", function(d){return d*5}).attr("fill", "blue").attr("transform","translate(0,500),scale(1,-1)").attr("stroke", "black");  
+
+    d3.select("svg").selectAll("text").data(dataset).enter().append("text").attr("x", function(d, i){return i*20}).attr("y", function(d){ return (510-d*5)}).text(function(d){return d}).attr("fill", "white");
+      
+    </script>
+  </body>
+
+</html>
