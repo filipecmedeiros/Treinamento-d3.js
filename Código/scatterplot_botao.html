@@ -119,7 +119,10 @@
             .attr("y", d=>yScale(d[1]))
             .attr("fill", "red");
           
-            
+            mySVG.selectAll("circle")
+                .on("mouseover",function(){
+                d3.select(this).attr("fill","orange");
+                })            
 
         }
 

@@ -15,23 +15,10 @@
     <p>oi</p>
 
     <script type="text/javascript">
-      var meusDados = [1,2,3,4,5,6,7,8,9,10];
       d3.select("h1").style("color", "purple");
       d3.selectAll("p").style("color", "blue");
-      
-      d3.selectAll("p").data(meusDados).text(function(d, i){return "valor em " + i + " eh " + d});
-
-      d3.select("body").selectAll("p").data(meusDados).enter().append("p").text(d => "novo paragrafo " + d );
-
       d3.select("body").append("h3").text("Novo h3");
     </script>
-
-  <!--
-    <script type="text/javascript">
-      var dataset = [ 5, 10, 15, 20, 25 ];
-      d3.selectAll("p").data(dataset).text( d => "Novo parágrafo " + d);
-    </script>
-  -->
   </body>
 
 </html>
