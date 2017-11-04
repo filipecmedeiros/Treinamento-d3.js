@@ -8,13 +8,18 @@
   </head>
   <body>
 		<script type="text/javascript">
-
+			
 			//Width and height
 			var w = 500;
-			var h = 300;
+			var h = 500;
 
 			//Define path generator
-			var path = d3.geoPath();
+			var projection = d3.geoMercator().center([-48.077,-15.77])
+				.translate([w/2, h/2])
+				.scale([w]);
+
+			var path = d3.geoPath()
+				.projection(projection);
 
 			//Create SVG element
 			var svg = d3.select("body")
@@ -22,18 +27,22 @@
 						.attr("width", w)
 						.attr("height", h);
 
+
 			//Load in GeoJSON data
-			d3.json("us-states.json", function(json) {
+			d3.json("brazil.geojson", function(json) {
 				
 				//Bind data and create one path per GeoJSON feature
 				svg.selectAll("path")
 				   .data(json.features)
 				   .enter()
 				   .append("path")
-				   .attr("d", path);
-		
+				   .attr("d", path).on('mouseover', function(){
+				d3.select(this).attr('fill', d=>'orange');
+				})
+				.on('mouseout', function(){
+				d3.select(this).attr('fill', d=>'black');
+				});
 			});
-			
 		</script>
 	</body>
 </html>
