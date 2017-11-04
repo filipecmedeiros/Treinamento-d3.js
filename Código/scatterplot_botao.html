@@ -8,6 +8,7 @@
     <svg width="500" height="500">
     </svg>
     <button onClick="eventoClique()">Clique</button>
+    <input type="radio" id="radioButton">
 
     <script type="text/javascript">
             var margin = {top: 30, right: 30, bottom: 30, left: 30};
@@ -54,7 +55,10 @@
             .attr("cy",d=>yScale(d[1]))
             .attr("fill", d=>zScale(d[2]))
             .attr("r",5);
-
+            
+            var myBrush = d3.brush();
+            var brushGroup = mySVG.append("g").attr("class","brush");
+            myBrush(brushGroup);
 
         function eventoClique(){
             var points = 30;
@@ -119,10 +123,45 @@
             .attr("y", d=>yScale(d[1]))
             .attr("fill", "red");
           
+            /*
             mySVG.selectAll("circle")
                 .on("mouseover",function(){
                 d3.select(this).attr("fill","orange");
-                })            
+                })
+
+            mySVG.selectAll("circle")
+                .on("mouseout",function(){
+                d3.select(this).attr("fill","blue");
+                })
+            */
+
+            
+            
+            
+            myBrush.on('start', function(){console.log('start')});
+            myBrush.on('brush', function(){
+                console.log('brush');
+                var selection = d3.event.selection;
+                
+
+                mySVG.selectAll('circle').attr('fill', function (d){
+                    var x = xScale(d[0]);
+                    var y = yScale(d[1]);
+
+                    if (selection[0][0] <= x && x <=selection[1][0] && 
+                        selection[0][1] <= y && y <=selection[1][1]){
+                        return 'red';
+                    }
+                    else{
+                        return 'black';
+                    }
+                });
+
+
+            });
+            myBrush.on('end', function(){console.log('end')});
+
+            
 
         }
 
